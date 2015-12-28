@@ -62,21 +62,6 @@ namespace Compose.Tests
 		}
 		#endregion
 
-		#region CanInvokeWithByRefArguments
-		public interface IInvokeWithByRefArgument { void Method(ref int arg); }
-		internal class InvokeWithByRefArgument : IInvokeWithByRefArgument
-		{
-			public void Method(ref int arg) { }
-		}
-		[Unit]
-		public void CanInvokeWithByRefArguments()
-		{
-			var service = SetupProxy<IInvokeWithByRefArgument, InvokeWithByRefArgument>()();
-			var arg = 0;
-			service.Method(ref arg);
-		}
-		#endregion
-
 		#region CanInvokeWithOutArguments
 		public interface IInvokeWithOutArguments { void Method(out int arg); }
 		internal class InvokeWithOutArguments : IInvokeWithOutArguments

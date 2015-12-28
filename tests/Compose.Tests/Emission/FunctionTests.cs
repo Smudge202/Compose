@@ -56,5 +56,22 @@ namespace Compose.Tests.Emission
 			proxy.Method()
 				.Should().Be(ReturnFromInvokeImplementation.Return);
 		}
+
+		public interface InvokeWithByRefArgument { void Method(ref string arg); }
+
+		public class InvokeWithByRefArgumentImplementation : InvokeWithByRefArgument
+		{
+			internal static string InvocationArgument { get; set; }
+			public void Method(ref string argument) => InvocationArgument = argument;
+		}
+
+		[Unit]
+		public static void WhenInvokingMethodWithByRefArgumentThenArgumentIsPassed()
+		{
+			var proxy = CreateProxy<InvokeWithByRefArgument, InvokeWithByRefArgumentImplementation>();
+			var value = Guid.NewGuid().ToString();
+			proxy.Method(ref value);
+			InvokeWithByRefArgumentImplementation.InvocationArgument.Should().Be(value);
+		}
 	}
 }
