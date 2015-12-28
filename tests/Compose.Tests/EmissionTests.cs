@@ -62,21 +62,6 @@ namespace Compose.Tests
 		}
 		#endregion
 
-		#region CanInvokeWithOutArguments
-		public interface IInvokeWithOutArguments { void Method(out int arg); }
-		internal class InvokeWithOutArguments : IInvokeWithOutArguments
-		{
-			public void Method(out int arg) { arg = 4; }
-		}
-		[Unit]
-		public void CanInvokeWithOutArguments()
-		{
-			var service = SetupProxy<IInvokeWithOutArguments, InvokeWithOutArguments>()();
-			var arg = 0;
-			service.Method(out arg);
-		}
-		#endregion
-
 		#region CanInvokeWithParamsArguments
 		public interface IInvokeWithParamsArguments { void Method<T>(params T[] arg); }
 		internal class InvokeWithParamsArguments : IInvokeWithParamsArguments

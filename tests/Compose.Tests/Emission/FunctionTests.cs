@@ -73,5 +73,23 @@ namespace Compose.Tests.Emission
 			proxy.Method(ref value);
 			InvokeWithByRefArgumentImplementation.InvocationArgument.Should().Be(value);
 		}
+
+		public interface InvokeWithOutArgument { void Method(out string arg); }
+
+		public class InvokeWithOutArgumentImplementation : InvokeWithOutArgument
+		{
+			internal static string OutArgument { get; set; }
+			public void Method(out string argument) => argument = OutArgument;
+		}
+
+		[Unit]
+		public static void WhenInvokingMethodWithOutArgumentThenArgumentIsSet()
+		{
+			var proxy = CreateProxy<InvokeWithOutArgument, InvokeWithOutArgumentImplementation>();
+			InvokeWithOutArgumentImplementation.OutArgument = Guid.NewGuid().ToString();
+			string value = null;
+			proxy.Method(out value);
+			value.Should().Be(InvokeWithOutArgumentImplementation.OutArgument);
+		}
 	}
 }
