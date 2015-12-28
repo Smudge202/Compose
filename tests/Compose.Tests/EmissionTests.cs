@@ -62,42 +62,6 @@ namespace Compose.Tests
 		}
 		#endregion
 
-		#region CanInvokeInheritedInterfaceMethods
-		public interface INestedInterface { void NestedMethod(); }
-		public interface IParentInterface : INestedInterface { void ParentMethod(); }
-		internal class InvokeInheritedInterfaceMethods : IParentInterface
-		{
-			public void NestedMethod() { }
-
-			public void ParentMethod() { }
-		}
-		[Unit]
-		public void CanInvokeInheritedInterfaceMethods()
-		{
-			var service = SetupProxy<IParentInterface, InvokeInheritedInterfaceMethods>()();
-			service.ParentMethod();
-			service.NestedMethod();
-		}
-		#endregion
-
-		#region CanInvokeInheritedInterfaceExplcitlyImplementedMethods
-		public interface IExplicitInterface1 { void Method(); }
-		public interface IExplicitInterface2 { void Method(); }
-		public interface IInvokeInheritedInterfaceExplcitlyImplementedMethods : IExplicitInterface1, IExplicitInterface2 { }
-		internal class InvokeInheritedInterfaceExplcitlyImplementedMethods : IInvokeInheritedInterfaceExplcitlyImplementedMethods
-		{
-			void IExplicitInterface1.Method() { }
-			void IExplicitInterface2.Method() { }
-		}
-		[Unit]
-		public void CanInvokeInheritedInterfaceExplcitlyImplementedMethods()
-		{
-			var service = SetupProxy<IInvokeInheritedInterfaceExplcitlyImplementedMethods, InvokeInheritedInterfaceExplcitlyImplementedMethods>()();
-			((IExplicitInterface1)service).Method();
-			((IExplicitInterface2)service).Method();
-		}
-		#endregion
-
 		#region CanGenerateCovariantProxies
 		public interface ICovariant<out T> { T Method(); }
 		internal class Covariant : ICovariant<string>
