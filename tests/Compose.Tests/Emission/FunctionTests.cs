@@ -91,5 +91,27 @@ namespace Compose.Tests.Emission
 			proxy.Method(out value);
 			value.Should().Be(InvokeWithOutArgumentImplementation.OutArgument);
 		}
+
+		public interface InvokeWithParamsArgument { void Method(params Guid[] args); }
+
+		public class InvokeWithParamsArgumentImplementation : InvokeWithParamsArgument
+		{
+			internal static Guid[] InvocationArguments { get; set; }
+			public void Method(params Guid[] args) => InvocationArguments = args;
+		}
+
+		[Unit]
+		public static void WhenInvokingMethodWithParamsArgumentsThenArgumentsArePassed()
+		{
+			var proxy = CreateProxy<InvokeWithParamsArgument, InvokeWithParamsArgumentImplementation>();
+			var arg1 = Guid.NewGuid();
+			var arg2 = Guid.NewGuid();
+			proxy.Method(arg1, arg2);
+			var args = InvokeWithParamsArgumentImplementation.InvocationArguments;
+			args.Should().NotBeNull();
+			args.Should().HaveCount(2);
+			args[0].Should().Be(arg1);
+			args[1].Should().Be(arg2);
+		}
 	}
 }

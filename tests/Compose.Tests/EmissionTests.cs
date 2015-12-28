@@ -62,20 +62,6 @@ namespace Compose.Tests
 		}
 		#endregion
 
-		#region CanInvokeWithParamsArguments
-		public interface IInvokeWithParamsArguments { void Method<T>(params T[] arg); }
-		internal class InvokeWithParamsArguments : IInvokeWithParamsArguments
-		{
-			public void Method<T>(params T[] arg) { }
-		}
-		[Unit]
-		public void CanInvokeWithParamsArguments()
-		{
-			var service = SetupProxy<IInvokeWithParamsArguments, InvokeWithParamsArguments>()();
-			service.Method(1, 2, 3);
-		}
-		#endregion
-
 		#region CanInvokeInheritedInterfaceMethods
 		public interface INestedInterface { void NestedMethod(); }
 		public interface IParentInterface : INestedInterface { void ParentMethod(); }
